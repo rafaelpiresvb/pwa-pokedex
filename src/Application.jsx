@@ -1,19 +1,20 @@
 import Nullstack from 'nullstack'
-import '../tailwind.css'
 import Home from './Home'
+
+import '../tailwind.css'
 
 class Application extends Nullstack {
   prepare({ page }) {
-    page.title = 'Pokedex - First generation'
+    page.title = 'Pokédex - First generation'
     page.locale = 'pt-BR'
   }
 
   renderHead() {
     return (
       <head>
-        <link href="https://fonts.gstatic.com" rel="preconnect" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-          href="https://fonts.googleapis.com/css2?family=Crete+Round&family=Roboto&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -22,7 +23,7 @@ class Application extends Nullstack {
 
   render() {
     return (
-      <body class="bg-gray-900 font-roboto text-white">
+      <body class="text-darkgray bg-white font-poppins">
         <Head />
         <Home route="/" />
       </body>
