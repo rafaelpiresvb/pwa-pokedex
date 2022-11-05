@@ -1,5 +1,6 @@
 import Nullstack from 'nullstack'
 import Logo from 'nullstack/logo'
+import Tag from './components/Tag'
 
 class Home extends Nullstack {
   prepare({ project, page }) {
@@ -17,9 +18,10 @@ class Home extends Nullstack {
           alt=""
         />
 
-        <span class="text-white rounded-xl bg-rock py-1 px-2 text-xs font-bold">
-          Rock
-        </span>
+        <Tag class="bg-rock">Rock</Tag>
+        <Tag>Default</Tag>
+        <Tag class="bg-normal">Normal</Tag>
+        <Tag class="bg-fighting">Fighting</Tag>
       </section>
     )
   }
