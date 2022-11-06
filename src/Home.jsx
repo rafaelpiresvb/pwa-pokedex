@@ -1,6 +1,8 @@
 import Nullstack from 'nullstack'
 import Logo from 'nullstack/logo'
 import Tag from './components/Tag'
+import NumberSort from './icons/NumberSort'
+import PokeballIcon from './icons/PokeballIcon'
 
 class Home extends Nullstack {
   prepare({ project, page }) {
@@ -8,20 +10,22 @@ class Home extends Nullstack {
     page.description = `${project.name} foi feito com Nullstack`
   }
 
+  renderHeader() {
+    return (
+      <header class="flex gap-4">
+        <PokeballIcon />
+        <h1 class="text-2xl font-bold">Pokédex</h1>
+        <span class="ml-auto cursor-pointer">
+          <NumberSort />
+        </span>
+      </header>
+    )
+  }
+
   render({ project, greeting }) {
     return (
-      <section class="my-0 mx-auto flex min-h-screen w-full max-w-3xl flex-wrap items-center p-6 md:flex-nowrap">
-        <h1>PWA Pokédex</h1>
-        <img
-          width="250"
-          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
-          alt=""
-        />
-
-        <Tag class="bg-rock">Rock</Tag>
-        <Tag>Default</Tag>
-        <Tag class="bg-normal">Normal</Tag>
-        <Tag class="bg-fighting">Fighting</Tag>
+      <section class="mx-auto min-h-screen w-full max-w-3xl px-4 py-5">
+        <Header />
       </section>
     )
   }
