@@ -78,14 +78,23 @@ class Detail extends Nullstack {
         style={`background-color: ${colors[this.pokeData.types[0].type.name]}`}
       >
         <Header />
-        <div class="h-full min-h-screen rounded-lg bg-white">
-          <div class="flex flex-wrap justify-center gap-4 py-14">
+        <div class="flex-auto rounded-lg bg-white ">
+          <div class="flex flex-wrap justify-center gap-4 pt-14">
             {this.pokeData.types.map((type) => (
               <Tag class={`background-color: ${colors[type.type.name]}`}>
                 {type.type.name}
               </Tag>
             ))}
           </div>
+          <h2
+            class="text-bold py-4 text-center text-sm"
+            style={`color: ${colors[this.pokeData.types[0].type.name]}`}
+          >
+            About
+          </h2>
+          <span>
+            {this.pokeData.}
+          </span>
         </div>
       </section>
     )
