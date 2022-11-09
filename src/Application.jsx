@@ -2,6 +2,7 @@ import Nullstack from 'nullstack'
 import Home from './Home'
 
 import '../tailwind.css'
+import Detail from './Detail'
 
 class Application extends Nullstack {
   prepare({ page }) {
@@ -26,6 +27,8 @@ class Application extends Nullstack {
       <body class="bg-white font-poppins text-darkgray">
         <Head />
         <Home route="/" persistent />
+        <Detail route="/:pokeNumber" />
+
       </body>
     )
   }
