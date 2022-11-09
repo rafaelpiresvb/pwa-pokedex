@@ -92,9 +92,6 @@ class Detail extends Nullstack {
           >
             About
           </h2>
-          <span>
-            {this.pokeData.}
-          </span>
         </div>
       </section>
     )
