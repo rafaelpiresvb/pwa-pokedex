@@ -1,12 +1,16 @@
 import Nullstack from 'nullstack'
+import StatBar from './components/StatBar'
 import Tag from './components/Tag'
 import { colors } from './constants/color'
 import BackIcon from './icons/BackIcon'
+import HeightIcon from './icons/HeightIcon'
 import PokeballBackground from './icons/PokeballBackground'
+import WeightIcon from './icons/WeightIcon'
 
 class Detail extends Nullstack {
   pokeNumber = 0
   pokeData
+  speciesData
 
   async initiate({ params }) {
     this.pokeNumber = params.pokeNumber
@@ -17,7 +21,12 @@ class Detail extends Nullstack {
     const response = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${this.pokeNumber}`,
     )
+    const species = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${this.pokeNumber}`,
+    )
+
     this.pokeData = await response.json()
+    this.speciesData = await species.json()
   }
 
   async loadPokeData() {
@@ -64,6 +73,114 @@ class Detail extends Nullstack {
     )
   }
 
+  renderAbout() {
+    return (
+      <div>
+        <h2
+          class="text-bold py-4 text-center text-2xl"
+          style={`color: ${colors[this.pokeData.types[0].type.name]}`}
+        >
+          About
+        </h2>
+
+        <div class="grid w-full grid-cols-3 justify-evenly divide-x text-center">
+          <div class="flex flex-col">
+            <div class="my-auto mx-auto flex flex-row  gap-2">
+              <WeightIcon />
+              <span class="text-sm"> {this.pokeData.weight / 10} kg</span>
+            </div>
+            <span class="mt-auto text-xs text-lightgray">Weight</span>
+          </div>
+
+          <div class="flex flex-col">
+            <div class="my-auto mx-auto flex flex-row gap-2">
+              <HeightIcon />
+              <span class="text-sm"> {this.pokeData.height / 10} m</span>
+            </div>
+            <span class="mt-auto text-xs text-lightgray">Height</span>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <div class="my-auto mx-auto flex flex-col gap-1">
+              {this.pokeData.moves.slice(0, 2).map((move) => (
+                <span class="text-sm capitalize">{move.move.name}</span>
+              ))}
+            </div>
+            <span class="mt-auto text-xs text-lightgray">Moves</span>
+          </div>
+        </div>
+        <div class="p-4 ">
+          <span class="text-xs">
+            {this.speciesData.flavor_text_entries[0].flavor_text.replace(
+              '',
+              ' ',
+            )}
+          </span>
+        </div>
+      </div>
+    )
+  }
+
+  renderTypes() {
+    return (
+      <div class="flex flex-wrap justify-center gap-4 pt-14">
+        {this.pokeData.types.map((type) => (
+          <Tag class={`background-color: ${colors[type.type.name]}`}>
+            {type.type.name}
+          </Tag>
+        ))}
+      </div>
+    )
+  }
+
+  renderBaseStats() {
+    return (
+      <div>
+        <h2
+          class="text-bold py-4 text-center text-2xl"
+          style={`color: ${colors[this.pokeData.types[0].type.name]}`}
+        >
+          Base Stats
+        </h2>
+
+        <div class="grid  grid-cols-5 gap-x-2  divide-x text-right">
+          <div class="col-span-1 ">HP</div>
+          <div class="col-span-4 flex flex-col">
+            <div class=" my-auto ">
+              <StatBar
+                class={`background-color: ${
+                  colors[this.pokeData.types[0].type.name]
+                }; width: ${this.pokeData.stats[0].base_stat}%`}
+              />
+            </div>
+          </div>
+
+          <div class="col-span-1 ">ATK</div>
+          <div class="col-span-4 flex flex-col">
+            <div class=" my-auto ">
+              <StatBar
+                class={`background-color: ${
+                  colors[this.pokeData.types[0].type.name]
+                }; width: ${this.pokeData.stats[1].base_stat}%`}
+              />
+            </div>
+          </div>
+
+          <div class="col-span-1 ">DEF</div>
+          <div class="col-span-4 flex flex-col">
+            <div class=" my-auto ">
+              <StatBar
+                class={`background-color: ${
+                  colors[this.pokeData.types[0].type.name]
+                }; width: ${this.pokeData.stats[2].base_stat}%`}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render({ project, greeting }) {
     if (!this.pokeData) {
       return (
@@ -79,19 +196,9 @@ class Detail extends Nullstack {
       >
         <Header />
         <div class="flex-auto rounded-lg bg-white ">
-          <div class="flex flex-wrap justify-center gap-4 pt-14">
-            {this.pokeData.types.map((type) => (
-              <Tag class={`background-color: ${colors[type.type.name]}`}>
-                {type.type.name}
-              </Tag>
-            ))}
-          </div>
-          <h2
-            class="text-bold py-4 text-center text-sm"
-            style={`color: ${colors[this.pokeData.types[0].type.name]}`}
-          >
-            About
-          </h2>
+          <Types />
+          <About />
+          <BaseStats />
         </div>
       </section>
     )
