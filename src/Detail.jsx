@@ -4,7 +4,9 @@ import Tag from './components/Tag'
 import { colors } from './constants/color'
 import BackIcon from './icons/BackIcon'
 import HeightIcon from './icons/HeightIcon'
+import LeftArrow from './icons/LeftArrow'
 import PokeballBackground from './icons/PokeballBackground'
+import RightArrow from './icons/RightArrow'
 import WeightIcon from './icons/WeightIcon'
 
 class Detail extends Nullstack {
@@ -123,7 +125,7 @@ class Detail extends Nullstack {
 
   renderTypes() {
     return (
-      <div class="flex flex-wrap justify-center gap-4 pt-14">
+      <div class="flex flex-wrap justify-center gap-4 pt-16">
         {this.pokeData.types.map((type) => (
           <Tag class={`background-color: ${colors[type.type.name]}`}>
             {type.type.name}
@@ -188,8 +190,32 @@ class Detail extends Nullstack {
     )
   }
 
+  renderNavigationArrows() {
+    return (
+      <div class="-mt-9 flex  w-full justify-between px-9">
+        <a
+          href={`/${Number(this.pokeNumber) - 1}`}
+          class={`z-20 hover:scale-125 ${
+            this.pokeNumber == 1 ? 'invisible' : 'visible'
+          }`}
+        >
+          <LeftArrow />
+        </a>
+
+        <a
+          href={`/${Number(this.pokeNumber) + Number(1)}`}
+          class={`z-20 hover:scale-125 ${
+            this.pokeNumber == 151 ? 'invisible' : 'visible'
+          }`}
+        >
+          <RightArrow />
+        </a>
+      </div>
+    )
+  }
+
   render({ project, greeting }) {
-    if (!this.pokeData) {
+    if (!this.pokeData || !this.speciesData) {
       return (
         <header>
           <h1>Loading...</h1>
@@ -203,6 +229,7 @@ class Detail extends Nullstack {
       >
         <Header />
         <div class="flex-auto rounded-lg bg-white ">
+          <NavigationArrows />
           <Types />
           <About />
           <BaseStats />
