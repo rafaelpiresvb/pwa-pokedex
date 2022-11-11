@@ -143,40 +143,47 @@ class Detail extends Nullstack {
           Base Stats
         </h2>
 
-        <div class="grid  grid-cols-5 gap-x-2  divide-x text-right">
-          <div class="col-span-1 ">HP</div>
-          <div class="col-span-4 flex flex-col">
-            <div class=" my-auto ">
-              <StatBar
-                class={`background-color: ${
-                  colors[this.pokeData.types[0].type.name]
-                }; width: ${this.pokeData.stats[0].base_stat}%`}
-              />
-            </div>
-          </div>
+        <StatBar
+          color={colors[this.pokeData.types[0].type.name]}
+          value={this.pokeData.stats[0].base_stat}
+        >
+          HP
+        </StatBar>
 
-          <div class="col-span-1 ">ATK</div>
-          <div class="col-span-4 flex flex-col">
-            <div class=" my-auto ">
-              <StatBar
-                class={`background-color: ${
-                  colors[this.pokeData.types[0].type.name]
-                }; width: ${this.pokeData.stats[1].base_stat}%`}
-              />
-            </div>
-          </div>
+        <StatBar
+          color={colors[this.pokeData.types[0].type.name]}
+          value={this.pokeData.stats[1].base_stat}
+        >
+          ATK
+        </StatBar>
 
-          <div class="col-span-1 ">DEF</div>
-          <div class="col-span-4 flex flex-col">
-            <div class=" my-auto ">
-              <StatBar
-                class={`background-color: ${
-                  colors[this.pokeData.types[0].type.name]
-                }; width: ${this.pokeData.stats[2].base_stat}%`}
-              />
-            </div>
-          </div>
-        </div>
+        <StatBar
+          color={colors[this.pokeData.types[0].type.name]}
+          value={this.pokeData.stats[2].base_stat}
+        >
+          DEF
+        </StatBar>
+
+        <StatBar
+          color={colors[this.pokeData.types[0].type.name]}
+          value={this.pokeData.stats[3].base_stat}
+        >
+          SATK
+        </StatBar>
+
+        <StatBar
+          color={colors[this.pokeData.types[0].type.name]}
+          value={this.pokeData.stats[4].base_stat}
+        >
+          SDEF
+        </StatBar>
+
+        <StatBar
+          color={colors[this.pokeData.types[0].type.name]}
+          value={this.pokeData.stats[5].base_stat}
+        >
+          SPD
+        </StatBar>
       </div>
     )
   }
