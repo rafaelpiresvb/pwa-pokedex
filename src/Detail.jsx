@@ -47,7 +47,7 @@ class Detail extends Nullstack {
       <header class="">
         <div class="static h-52 w-full ">
           <div class="flex gap-4 ">
-            <a href="/">
+            <a href="/" class="hover:scale-125">
               <BackIcon />
             </a>
             <h1 class="text-2xl font-bold capitalize text-white">
