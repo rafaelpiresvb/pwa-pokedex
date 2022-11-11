@@ -39,12 +39,17 @@ class Home extends Nullstack {
 
   renderHeader() {
     return (
-      <header class="flex gap-4">
-        <PokeballIcon />
-        <h1 class="text-2xl font-bold">Pokédex</h1>
-        <span class="ml-auto cursor-pointer">
-          <NumberSort />
-        </span>
+      <header class="sticky top-0 z-30 w-full bg-white py-1 ">
+        <div class="flex gap-4">
+          <PokeballIcon />
+          <h1 class="text-2xl font-bold">Pokédex</h1>
+          <span class="ml-auto cursor-pointer">
+            <NumberSort />
+          </span>
+        </div>
+        <div class="mt-3">
+          <SearchBar />
+        </div>
       </header>
     )
   }
@@ -75,7 +80,6 @@ class Home extends Nullstack {
     return (
       <section class="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-3 px-4 py-5">
         <Header />
-        <SearchBar />
         <Pokelist />
       </section>
     )
