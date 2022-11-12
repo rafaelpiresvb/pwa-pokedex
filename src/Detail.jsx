@@ -8,38 +8,19 @@ import LeftArrow from './icons/LeftArrow'
 import PokeballBackground from './icons/PokeballBackground'
 import RightArrow from './icons/RightArrow'
 import WeightIcon from './icons/WeightIcon'
+import { PokemonService } from './service/PokemonService'
 
 class Detail extends Nullstack {
   pokeNumber = 0
-  pokeData
-  speciesData
+  pokemon
 
   async initiate({ params }) {
     this.pokeNumber = params.pokeNumber
-    console.log('initiate', this.pokeNumber)
-  }
-
-  async fetchPokeData() {
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${this.pokeNumber}`,
-    )
-    const species = await fetch(
-      `https://pokeapi.co/api/v2/pokemon-species/${this.pokeNumber}`,
-    )
-
-    this.pokeData = await response.json()
-    this.speciesData = await species.json()
-  }
-
-  async loadPokeData() {
-    const pokeData = await this.fetchPokeData()
-    console.log('loadPokeData', pokeData)
-    this.pokeData = pokeData
   }
 
   async hydrate() {
-    console.log('hydrate')
-    this.fetchPokeData()
+    const service = new PokemonService()
+    this.pokemon = await service.retrievePokemon(this.pokeNumber)
   }
 
   renderHeader() {
@@ -47,25 +28,23 @@ class Detail extends Nullstack {
       <header class="">
         <div class="static h-52 w-full ">
           <div class="flex gap-4 ">
-            <a href="/" class="hover:scale-125">
+            <a href="/">
               <BackIcon />
             </a>
             <h1 class="text-2xl font-bold capitalize text-white">
-              {this.pokeData.name}
+              {this.pokemon.name}
             </h1>
             <span class="w-full p-2 text-right text-xs text-white">
-              #{String(this.pokeData.id).padStart(3, '0')}
+              #{String(this.pokemon.number).padStart(3, '0')}
             </span>
           </div>
 
-          {/* <div class="absolute z-10 w-full"> */}
           <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${this.pokeNumber}.png`}
+            src={this.pokemon.imgUrl}
             alt=""
             class="absolute z-10 m-auto h-60 w-full overflow-y-visible object-contain"
             loading="lazy"
           />
-          {/* </div> */}
 
           <div class="absolute top-2 right-2 z-0 overflow-hidden pr-2 pt-2">
             <PokeballBackground />
@@ -80,7 +59,7 @@ class Detail extends Nullstack {
       <div>
         <h2
           class="text-bold py-4 text-center text-2xl"
-          style={`color: ${colors[this.pokeData.types[0].type.name]}`}
+          style={`color: ${colors[this.pokemon.types[0]]}`}
         >
           About
         </h2>
@@ -89,7 +68,7 @@ class Detail extends Nullstack {
           <div class="flex flex-col">
             <div class="my-auto mx-auto flex flex-row  gap-2">
               <WeightIcon />
-              <span class="text-sm"> {this.pokeData.weight / 10} kg</span>
+              <span class="text-sm"> {this.pokemon.weight / 10} kg</span>
             </div>
             <span class="mt-auto text-xs text-lightgray">Weight</span>
           </div>
@@ -97,27 +76,22 @@ class Detail extends Nullstack {
           <div class="flex flex-col">
             <div class="my-auto mx-auto flex flex-row gap-2">
               <HeightIcon />
-              <span class="text-sm"> {this.pokeData.height / 10} m</span>
+              <span class="text-sm"> {this.pokemon.height / 10} m</span>
             </div>
             <span class="mt-auto text-xs text-lightgray">Height</span>
           </div>
 
           <div class="flex flex-col gap-2">
             <div class="my-auto mx-auto flex flex-col gap-1">
-              {this.pokeData.moves.slice(0, 2).map((move) => (
-                <span class="text-sm capitalize">{move.move.name}</span>
+              {this.pokemon.moves.slice(0, 2).map((move) => (
+                <span class="text-sm capitalize">{move}</span>
               ))}
             </div>
             <span class="mt-auto text-xs text-lightgray">Moves</span>
           </div>
         </div>
         <div class="p-4 ">
-          <span class="text-xs">
-            {this.speciesData.flavor_text_entries[0].flavor_text.replace(
-              '',
-              ' ',
-            )}
-          </span>
+          <span class="text-xs">{this.pokemon.description}</span>
         </div>
       </div>
     )
@@ -126,10 +100,8 @@ class Detail extends Nullstack {
   renderTypes() {
     return (
       <div class="flex flex-wrap justify-center gap-4 pt-16">
-        {this.pokeData.types.map((type) => (
-          <Tag class={`background-color: ${colors[type.type.name]}`}>
-            {type.type.name}
-          </Tag>
+        {this.pokemon.types.map((type) => (
+          <Tag class={`background-color: ${colors[type]}`}>{type}</Tag>
         ))}
       </div>
     )
@@ -140,49 +112,49 @@ class Detail extends Nullstack {
       <div>
         <h2
           class="text-bold py-4 text-center text-2xl"
-          style={`color: ${colors[this.pokeData.types[0].type.name]}`}
+          style={`color: ${colors[this.pokemon.types[0]]}`}
         >
           Base Stats
         </h2>
 
         <StatBar
-          color={colors[this.pokeData.types[0].type.name]}
-          value={this.pokeData.stats[0].base_stat}
+          color={colors[this.pokemon.types[0]]}
+          value={this.pokemon.baseStats[0]}
         >
           HP
         </StatBar>
 
         <StatBar
-          color={colors[this.pokeData.types[0].type.name]}
-          value={this.pokeData.stats[1].base_stat}
+          color={colors[this.pokemon.types[0]]}
+          value={this.pokemon.baseStats[1]}
         >
           ATK
         </StatBar>
 
         <StatBar
-          color={colors[this.pokeData.types[0].type.name]}
-          value={this.pokeData.stats[2].base_stat}
+          color={colors[this.pokemon.types[0]]}
+          value={this.pokemon.baseStats[2]}
         >
           DEF
         </StatBar>
 
         <StatBar
-          color={colors[this.pokeData.types[0].type.name]}
-          value={this.pokeData.stats[3].base_stat}
+          color={colors[this.pokemon.types[0]]}
+          value={this.pokemon.baseStats[3]}
         >
           SATK
         </StatBar>
 
         <StatBar
-          color={colors[this.pokeData.types[0].type.name]}
-          value={this.pokeData.stats[4].base_stat}
+          color={colors[this.pokemon.types[0]]}
+          value={this.pokemon.baseStats[4]}
         >
           SDEF
         </StatBar>
 
         <StatBar
-          color={colors[this.pokeData.types[0].type.name]}
-          value={this.pokeData.stats[5].base_stat}
+          color={colors[this.pokemon.types[0]]}
+          value={this.pokemon.baseStats[5]}
         >
           SPD
         </StatBar>
@@ -194,19 +166,15 @@ class Detail extends Nullstack {
     return (
       <div class="-mt-9 flex  w-full justify-between px-9">
         <a
-          href={`/${Number(this.pokeNumber) - 1}`}
-          class={`z-20 hover:scale-125 ${
-            this.pokeNumber == 1 ? 'invisible' : 'visible'
-          }`}
+          href={`/${Number(this.pokemon.number) - 1}`}
+          class={`z-20 ${this.pokemon.number == 1 ? 'invisible' : 'visible'}`}
         >
           <LeftArrow />
         </a>
 
         <a
-          href={`/${Number(this.pokeNumber) + Number(1)}`}
-          class={`z-20 hover:scale-125 ${
-            this.pokeNumber == 151 ? 'invisible' : 'visible'
-          }`}
+          href={`/${Number(this.pokemon.number) + Number(1)}`}
+          class={`z-20 ${this.pokemon.number == 151 ? 'invisible' : 'visible'}`}
         >
           <RightArrow />
         </a>
@@ -215,7 +183,7 @@ class Detail extends Nullstack {
   }
 
   render({ project, greeting }) {
-    if (!this.pokeData || !this.speciesData) {
+    if (!this.pokemon) {
       return (
         <header>
           <h1>Loading...</h1>
@@ -225,7 +193,7 @@ class Detail extends Nullstack {
     return (
       <section
         class="mx-auto flex min-h-screen w-full flex-col gap-3 px-2 py-2"
-        style={`background-color: ${colors[this.pokeData.types[0].type.name]}`}
+        style={`background-color: ${colors[this.pokemon.types[0]]}`}
       >
         <Header />
         <div class="flex-auto rounded-lg bg-white ">

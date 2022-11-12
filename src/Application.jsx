@@ -27,8 +27,7 @@ class Application extends Nullstack {
       <body class="bg-white font-poppins text-darkgray">
         <Head />
         <Home route="/" persistent />
-        <Detail route="/:pokeNumber" />
-
+        <Detail route="/:pokeNumber" persistent/>
       </body>
     )
   }

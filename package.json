@@ -16,6 +16,7 @@
     "build": "npx nullstack build --mode=ssg --output=dist"
   },
   "dependencies": {
+    "dexie": "^3.2.2",
     "tailwind-merge": "^1.8.0"
   }
 }
