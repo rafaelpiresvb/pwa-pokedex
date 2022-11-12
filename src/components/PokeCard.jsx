@@ -1,5 +1,5 @@
 import { colors } from '../constants/color'
-import PokeballIcon from '../icons/PokeballIcon'
+import PokeballFavoriteIcon from '../icons/PokeballFavoriteIcon'
 
 export default function PokeCard({ pokeData }) {
   const pokemon = pokeData
@@ -12,10 +12,10 @@ export default function PokeCard({ pokeData }) {
         <div class="flex flex-row">
           <div
             class={`px-2 ${
-              pokemon.isFavorite == true ? 'visible' : 'invisible'
+              pokemon.isFavorite === true ? 'visible' : 'invisible'
             }`}
           >
-            <PokeballIcon />
+            <PokeballFavoriteIcon />
           </div>
           <span
             class="w-full p-2 text-right text-xs"

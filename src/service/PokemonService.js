@@ -44,6 +44,15 @@ export class PokemonService {
         }
     }
 
+    async updateFavorite(number, isFavorite) {
+        const dbPokemon = await db.pokemon.where("number").equals(number).toArray()
+        if (dbPokemon.length === 1) {
+            const success = await db.pokemon.update(dbPokemon[0].id, { isFavorite: isFavorite })
+            return success === 1
+        }
+        return false
+    }
+
     async fetchPokeData({ pokeNumber }) {
         const [pokemonResponse, specieResponse] = await Promise.all([
             fetch(`https://pokeapi.co/api/v2/pokemon/${pokeNumber}`),

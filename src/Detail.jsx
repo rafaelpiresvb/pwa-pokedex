@@ -5,7 +5,9 @@ import { colors } from './constants/color'
 import BackIcon from './icons/BackIcon'
 import HeightIcon from './icons/HeightIcon'
 import LeftArrow from './icons/LeftArrow'
+import PokeballAddToFavoriteIcon from './icons/PokeballAddToFavoriteIcon'
 import PokeballBackground from './icons/PokeballBackground'
+import PokeballFavoriteIcon from './icons/PokeballFavoriteIcon'
 import RightArrow from './icons/RightArrow'
 import WeightIcon from './icons/WeightIcon'
 import { PokemonService } from './service/PokemonService'
@@ -13,14 +15,28 @@ import { PokemonService } from './service/PokemonService'
 class Detail extends Nullstack {
   pokeNumber = 0
   pokemon
+  pokemonService = new PokemonService()
 
   async initiate({ params }) {
     this.pokeNumber = params.pokeNumber
   }
 
   async hydrate() {
-    const service = new PokemonService()
-    this.pokemon = await service.retrievePokemon(this.pokeNumber)
+    this.pokemon = await this.pokemonService.retrievePokemon(this.pokeNumber)
+  }
+
+  async changeFavorite() {
+    const success = await this.pokemonService.updateFavorite(
+      this.pokemon.number,
+      !this.pokemon.isFavorite,
+    )
+    if (success === true) {
+      this.pokemon.isFavorite = !this.pokemon.isFavorite
+      const message = this.pokemon.isFavorite
+        ? 'Pokemon set as favorite successfully!'
+        : 'Pokemon removed as favorite successfully!'
+      alert(message)
+    }
   }
 
   renderHeader() {
@@ -34,6 +50,15 @@ class Detail extends Nullstack {
             <h1 class="text-2xl font-bold capitalize text-white">
               {this.pokemon.name}
             </h1>
+
+            <div onclick={this.changeFavorite} class="hover:cursor-pointer">
+              {this.pokemon.isFavorite ? (
+                <PokeballFavoriteIcon />
+              ) : (
+                <PokeballAddToFavoriteIcon />
+              )}
+            </div>
+
             <span class="w-full p-2 text-right text-xs text-white">
               #{String(this.pokemon.number).padStart(3, '0')}
             </span>
