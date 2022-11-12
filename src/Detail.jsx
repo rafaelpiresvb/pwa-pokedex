@@ -51,7 +51,10 @@ class Detail extends Nullstack {
               {this.pokemon.name}
             </h1>
 
-            <div onclick={this.changeFavorite} class="hover:cursor-pointer">
+            <div
+              onclick={this.changeFavorite}
+              class="z-20 hover:cursor-pointer"
+            >
               {this.pokemon.isFavorite ? (
                 <PokeballFavoriteIcon />
               ) : (
